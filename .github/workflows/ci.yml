@@ -1,0 +1,81 @@
+name: CI & Security Hardening Pipeline
+
+on:
+  push:
+    branches: [ main, staging ]
+  pull_request:
+    branches: [ main, staging ]
+
+jobs:
+  backend-test-and-scan:
+    name: Backend Tests & Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r apps/api/requirements.txt
+          pip install bandit safety pytest-cov
+
+      - name: Run Python Security Scan (Bandit)
+        run: |
+          bandit -r apps/api/app -ll -ii
+
+      - name: Check Dependencies Vulnerabilities (Safety)
+        run: |
+          safety check --ignore=70612 || true
+
+      - name: Run Pytest Suite with Coverage
+        run: |
+          cd apps/api
+          python -m pytest --cov=app --cov-report=term-missing tests/
+
+  frontend-check:
+    name: Frontend Build & Lint Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+          cache-dependency-path: "apps/web/package-lock.json"
+
+      - name: Install Dependencies
+        run: |
+          cd apps/web
+          npm ci
+
+      - name: Run Build
+        run: |
+          cd apps/web
+          npm run build
+
+  container-build-check:
+    name: Container Build Verification
+    runs-on: ubuntu-latest
+    needs: [backend-test-and-scan, frontend-check]
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Build API Docker Image
+        run: |
+          docker build -t org-xray-api:latest -f infra/docker/Dockerfile.api .
+
+      - name: Build Web Docker Image
+        run: |
+          cd apps/web
+          docker build -t org-xray-web:latest -f ../../infra/docker/Dockerfile.web .

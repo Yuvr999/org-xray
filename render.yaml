@@ -49,8 +49,6 @@ services:
   - type: web
     name: org-xray-web
     runtime: static
-    region: oregon
-    plan: free
     rootDir: apps/web
     buildCommand: npm install && npm run build
     staticPublishPath: dist

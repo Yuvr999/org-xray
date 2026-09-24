@@ -116,7 +116,6 @@ export const DemandRoutingView: React.FC = () => {
     const costNum = parseFloat(estCost) || 0;
     const newId = Date.now();
 
-    // ML / Rule routing simulation fallback
     const text = `${title} ${description}`.toLowerCase();
     let routedDept = 'General';
     let method = 'rule';
@@ -231,31 +230,32 @@ export const DemandRoutingView: React.FC = () => {
       initial="initial"
       animate="animate"
       exit="exit"
-      className="flex flex-col gap-6 max-w-7xl mx-auto pb-20"
+      className="flex flex-col gap-8 max-w-7xl mx-auto pb-24"
     >
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex flex-col">
-          <span className="text-xs font-bold text-indigo-600 dark:text-indigo-400">
+          <span className="text-sm font-black text-white flex items-center gap-1.5 uppercase tracking-wider">
+            <Sparkles className="w-4 h-4 text-white" />
             Demand Routing & Procurement Core
           </span>
-          <h1 className="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white mt-1">
+          <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white mt-1">
             Procurement Demands, Dual Classifier & Approval Workflow
           </h1>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 self-start sm:self-auto">
           <button
             onClick={() => setShowVendorCatalog(!showVendorCatalog)}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold text-xs transition-all"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-white hover:bg-slate-100 text-slate-900 font-extrabold text-sm shadow-md transition-all cursor-pointer"
           >
-            <Building2 className="w-4 h-4 text-indigo-500" />
+            <Building2 className="w-4 h-4 text-blue-600" />
             <span>{showVendorCatalog ? 'Hide Vendors' : 'Vendor Catalog'}</span>
           </button>
 
           <button
             onClick={() => setShowNewModal(true)}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md shadow-indigo-500/20 transition-all"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-extrabold text-sm shadow-lg shadow-blue-600/25 transition-all hover:scale-105 active:scale-95 cursor-pointer"
           >
             <Plus className="w-4 h-4" />
             <span>New Demand Ticket</span>
@@ -272,11 +272,11 @@ export const DemandRoutingView: React.FC = () => {
             exit={{ opacity: 0, height: 0 }}
             className="overflow-hidden"
           >
-            <SoftCard className="p-4 flex flex-col gap-4 border border-indigo-200 dark:border-indigo-900/50 bg-indigo-50/30 dark:bg-indigo-950/20">
+            <SoftCard className="p-5 flex flex-col gap-4 border border-blue-200 dark:border-blue-900/50 bg-blue-50/40 dark:bg-blue-950/20">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Building2 className="w-4 h-4 text-indigo-600" />
-                  <span className="text-xs font-bold uppercase tracking-wider text-indigo-900 dark:text-indigo-300">
+                  <Building2 className="w-4 h-4 text-blue-600" />
+                  <span className="text-xs font-bold uppercase tracking-wider text-blue-900 dark:text-sky-300">
                     Approved Vendor Catalog ({vendors.length})
                   </span>
                 </div>
@@ -287,17 +287,17 @@ export const DemandRoutingView: React.FC = () => {
                     placeholder="Search vendor / category..."
                     value={vendorFilter}
                     onChange={(e) => setVendorFilter(e.target.value)}
-                    className="pl-8 pr-3 py-1.5 text-xs rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100"
+                    className="pl-8 pr-3 py-1.5 text-xs rounded-xl border border-blue-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
                 {filteredVendors.map((v) => (
-                  <div key={v.id} className="p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 flex flex-col gap-1.5">
+                  <div key={v.id} className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-blue-100 dark:border-blue-900/40 flex flex-col gap-1.5 shadow-xs">
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-bold text-slate-900 dark:text-white">{v.name}</span>
-                      <span className="text-[10px] font-extrabold px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+                      <span className="text-[10px] font-extrabold px-1.5 py-0.5 rounded-full bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-sky-300 border border-blue-200 dark:border-blue-800">
                         ★ {v.rating}
                       </span>
                     </div>
@@ -319,45 +319,45 @@ export const DemandRoutingView: React.FC = () => {
 
       {/* Demand Ticket Cards */}
       <div className="flex flex-col gap-4">
-        <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+        <span className="text-xs font-black text-white uppercase tracking-wider">
           Active Purchase Demands ({demands.length})
         </span>
 
         <motion.div variants={listContainerVariants} initial="hidden" animate="show" className="flex flex-col gap-4">
           {demands.map((demand) => (
             <motion.div key={demand.id} variants={listItemVariants}>
-              <SoftCard className="flex flex-col gap-4">
-                <div className="flex items-center justify-between border-b border-slate-200/50 dark:border-slate-800 pb-3">
+              <SoftCard className="flex flex-col gap-4 border-l-4 border-l-blue-600 bg-white text-slate-900 shadow-xl">
+                <div className="flex items-center justify-between border-b border-slate-200 pb-3">
                   <div className="flex items-center gap-3">
-                    <div className="p-2.5 rounded-2xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 font-bold">
+                    <div className="p-3 rounded-2xl bg-blue-50 text-blue-600 font-black border border-blue-200">
                       <ShoppingCart className="w-5 h-5" />
                     </div>
                     <div className="flex flex-col">
                       <div className="flex items-center gap-2">
-                        <h3 className="text-base font-extrabold text-slate-900 dark:text-white">
+                        <h3 className="text-lg font-black text-slate-900">
                           {demand.itemName}
                         </h3>
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300">
+                        <span className="px-2.5 py-0.5 rounded-full text-xs font-black bg-blue-100 text-blue-800 border border-blue-200">
                           {demand.routedDepartment || demand.department}
                         </span>
                         {demand.routingConfidence && (
-                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                          <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700 border border-slate-200">
                             {demand.routingMethod?.toUpperCase() || 'RULE'} ({(demand.routingConfidence * 100).toFixed(0)}%)
                           </span>
                         )}
                       </div>
-                      <span className="text-xs text-slate-400">
-                        Requested by <strong className="text-slate-700 dark:text-slate-200">{demand.requestedBy}</strong> • Est: {demand.estCost}
+                      <span className="text-xs text-slate-600 font-bold mt-0.5">
+                        Requested by <strong className="text-slate-900">{demand.requestedBy}</strong> • Est: <strong className="text-blue-600">{demand.estCost}</strong>
                       </span>
                     </div>
                   </div>
 
-                  <span className={`px-3 py-1 rounded-full text-xs font-extrabold ${
+                  <span className={`px-3 py-1 rounded-full text-xs font-black ${
                     demand.approvalStatus === 'APPROVED'
-                      ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300'
+                      ? 'bg-emerald-100 text-emerald-900 border border-emerald-200'
                       : demand.approvalStatus === 'REJECTED'
-                      ? 'bg-rose-100 text-rose-800 dark:bg-rose-950/80 dark:text-rose-300'
-                      : 'bg-amber-100 text-amber-800 dark:bg-amber-950/80 dark:text-amber-300'
+                      ? 'bg-slate-200 text-slate-900'
+                      : 'bg-blue-100 text-blue-900 border border-blue-200'
                   }`}>
                     {demand.approvalStatus}
                   </span>
@@ -365,29 +365,25 @@ export const DemandRoutingView: React.FC = () => {
 
                 {/* AI Recommendation Highlight Box */}
                 <div
-                  className={`p-4 rounded-2xl border flex flex-col gap-2 ${
-                    demand.matchedAssetAvailable
-                      ? 'bg-emerald-50/60 border-emerald-200 dark:bg-emerald-950/40 dark:border-emerald-900 text-emerald-900 dark:text-emerald-200'
-                      : 'bg-indigo-50/60 border-indigo-200 dark:bg-indigo-950/40 dark:border-indigo-900 text-indigo-900 dark:text-indigo-200'
-                  }`}
+                  className="p-4 rounded-2xl border border-blue-200 bg-blue-50/70 text-slate-900 flex flex-col gap-2"
                 >
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2 text-xs font-extrabold">
-                      <Bot className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+                    <div className="flex items-center gap-2 text-xs font-black text-blue-700">
+                      <Bot className="w-4 h-4 text-blue-600" />
                       <span>Dual Routing & AI Optimization Engine</span>
                     </div>
                     {demand.matchedAssetAvailable && (
-                      <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-600 text-white animate-pulse">
+                      <span className="px-3 py-0.5 rounded-full text-xs font-black bg-blue-600 text-white shadow-sm">
                         100% Cost Savings Available
                       </span>
                     )}
                   </div>
 
-                  <p className="text-xs leading-relaxed opacity-90 font-medium">
+                  <p className="text-sm leading-relaxed text-slate-800 font-medium">
                     {demand.aiRecommendation}
                   </p>
 
-                  <div className="flex flex-wrap items-center justify-between pt-2 border-t border-black/5 dark:border-white/5 text-xs font-bold gap-2">
+                  <div className="flex flex-wrap items-center justify-between pt-2 border-t border-blue-200 text-xs font-black text-slate-800 gap-2">
                     <span>Suggested Action: {demand.suggestedAction}</span>
 
                     <div className="flex items-center gap-2">
@@ -395,14 +391,14 @@ export const DemandRoutingView: React.FC = () => {
                         <>
                           <button
                             onClick={() => handleClassify(demand.id)}
-                            className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white transition-all text-xs"
+                            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-blue-700 hover:bg-blue-600 text-white transition-all text-xs font-bold cursor-pointer shadow-xs"
                           >
                             <Sparkles className="w-3.5 h-3.5" />
                             <span>Classify (ML+Rule)</span>
                           </button>
                           <button
                             onClick={() => handleSubmitDemand(demand.id)}
-                            className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white transition-all text-xs shadow-sm"
+                            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white transition-all text-xs font-bold shadow-sm cursor-pointer"
                           >
                             <span>Submit for Approval</span>
                             <ArrowRight className="w-3.5 h-3.5" />
@@ -413,7 +409,7 @@ export const DemandRoutingView: React.FC = () => {
                       {demand.approvalStatus === 'CLASSIFIED' && (
                         <button
                           onClick={() => handleSubmitDemand(demand.id)}
-                          className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white transition-all text-xs shadow-sm"
+                          className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white transition-all text-xs font-bold shadow-sm cursor-pointer"
                         >
                           <span>Submit for Approval</span>
                           <ArrowRight className="w-3.5 h-3.5" />
@@ -424,23 +420,23 @@ export const DemandRoutingView: React.FC = () => {
                         <>
                           <button
                             onClick={() => handleApprove(demand.id)}
-                            className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white transition-all text-xs"
+                            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white transition-all text-xs font-black cursor-pointer shadow-sm"
                           >
-                            <CheckCircle2 className="w-3.5 h-3.5" />
+                            <CheckCircle2 className="w-4 h-4" />
                             <span>Approve</span>
                           </button>
                           <button
                             onClick={() => handleReject(demand.id)}
-                            className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white transition-all text-xs"
+                            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-100 text-slate-900 transition-all text-xs font-bold cursor-pointer hover:bg-slate-200"
                           >
-                            <XCircle className="w-3.5 h-3.5" />
+                            <XCircle className="w-4 h-4" />
                             <span>Reject</span>
                           </button>
                         </>
                       )}
 
                       {demand.matchedAssetAvailable && demand.approvalStatus !== 'PENDING_APPROVAL' && (
-                        <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white transition-all shadow-sm text-xs">
+                        <button className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white transition-all shadow-sm text-xs font-bold cursor-pointer">
                           <Zap className="w-3.5 h-3.5" />
                           <span>Reallocate Dormant Asset</span>
                         </button>
@@ -457,12 +453,12 @@ export const DemandRoutingView: React.FC = () => {
       {/* New Ticket Modal */}
       <AnimatePresence>
         {showNewModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-md">
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="w-full max-w-md bg-white dark:bg-slate-900 rounded-3xl p-6 shadow-2xl border border-slate-200 dark:border-slate-800"
+              className="w-full max-w-md bg-white dark:bg-slate-900 rounded-3xl p-6 shadow-2xl border border-blue-100 dark:border-blue-900/60"
             >
               <h2 className="text-lg font-extrabold text-slate-900 dark:text-white mb-4">
                 Create New Purchase Demand
@@ -477,7 +473,7 @@ export const DemandRoutingView: React.FC = () => {
                     placeholder="e.g. 5x GPU Servers for ML Model Training"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-indigo-500"
+                    className="w-full px-3 py-2 text-xs rounded-xl border border-blue-200 dark:border-slate-700 bg-blue-50/30 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-blue-500"
                   />
                 </div>
 
@@ -488,7 +484,7 @@ export const DemandRoutingView: React.FC = () => {
                     placeholder="Detailed procurement requirements and justification..."
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-indigo-500"
+                    className="w-full px-3 py-2 text-xs rounded-xl border border-blue-200 dark:border-slate-700 bg-blue-50/30 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-blue-500"
                   />
                 </div>
 
@@ -498,7 +494,7 @@ export const DemandRoutingView: React.FC = () => {
                     <select
                       value={category}
                       onChange={(e) => setCategory(e.target.value)}
-                      className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white"
+                      className="w-full px-3 py-2 text-xs rounded-xl border border-blue-200 dark:border-slate-700 bg-blue-50/30 dark:bg-slate-800 text-slate-900 dark:text-white"
                     >
                       <option value="Technical">Technical</option>
                       <option value="Finance">Finance</option>
@@ -515,23 +511,23 @@ export const DemandRoutingView: React.FC = () => {
                       min="1"
                       value={estCost}
                       onChange={(e) => setEstCost(e.target.value)}
-                      className="w-full px-3 py-2 text-xs rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-indigo-500"
+                      className="w-full px-3 py-2 text-xs rounded-xl border border-blue-200 dark:border-slate-700 bg-blue-50/30 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-blue-500"
                     />
                   </div>
                 </div>
 
-                <div className="flex items-center justify-end gap-3 mt-4 pt-3 border-t border-slate-100 dark:border-slate-800">
+                <div className="flex items-center justify-end gap-3 mt-4 pt-3 border-t border-blue-100 dark:border-blue-900/40">
                   <button
                     type="button"
                     onClick={() => setShowNewModal(false)}
-                    className="px-4 py-2 text-xs font-bold text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                    className="px-4 py-2 text-xs font-bold text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white cursor-pointer"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="px-4 py-2 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-md transition-all"
+                    className="px-4 py-2 text-xs font-bold text-white bg-blue-600 hover:bg-blue-500 rounded-xl shadow-md shadow-blue-600/25 transition-all cursor-pointer"
                   >
                     Create & Classify
                   </button>

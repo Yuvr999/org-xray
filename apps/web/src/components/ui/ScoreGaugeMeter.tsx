@@ -19,13 +19,6 @@ export const ScoreGaugeMeter: React.FC<ScoreGaugeMeterProps> = ({
   const circumference = Math.PI * radius; // Semi-circle circumference
   const strokeDashoffset = circumference - (score / 100) * circumference;
 
-  // Color logic based on score
-  const getGradient = () => {
-    if (score > 75) return 'from-rose-500 via-amber-500 to-emerald-400';
-    if (score > 50) return 'from-amber-500 to-indigo-500';
-    return 'from-emerald-400 to-indigo-500';
-  };
-
   return (
     <div className="flex flex-col items-center justify-center p-4">
       <div className="relative flex items-center justify-center" style={{ width: size, height: size / 1.6 }}>
@@ -36,10 +29,11 @@ export const ScoreGaugeMeter: React.FC<ScoreGaugeMeterProps> = ({
           className="overflow-visible"
         >
           <defs>
-            <linearGradient id="gaugeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#F43F5E" />
-              <stop offset="50%" stopColor="#F59E0B" />
-              <stop offset="100%" stopColor="#10B981" />
+            <linearGradient id="gaugeGradientBlue" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#93C5FD" />
+              <stop offset="50%" stopColor="#38BDF8" />
+              <stop offset="80%" stopColor="#2563EB" />
+              <stop offset="100%" stopColor="#1D4ED8" />
             </linearGradient>
           </defs>
 
@@ -47,7 +41,7 @@ export const ScoreGaugeMeter: React.FC<ScoreGaugeMeterProps> = ({
           <path
             d={`M ${strokeWidth / 2} ${size / 2} A ${radius} ${radius} 0 0 1 ${size - strokeWidth / 2} ${size / 2}`}
             fill="none"
-            stroke="rgba(226, 232, 240, 0.6)"
+            stroke="rgba(147, 197, 253, 0.2)"
             strokeWidth={strokeWidth}
             strokeLinecap="round"
           />
@@ -56,7 +50,7 @@ export const ScoreGaugeMeter: React.FC<ScoreGaugeMeterProps> = ({
           <motion.path
             d={`M ${strokeWidth / 2} ${size / 2} A ${radius} ${radius} 0 0 1 ${size - strokeWidth / 2} ${size / 2}`}
             fill="none"
-            stroke="url(#gaugeGradient)"
+            stroke="url(#gaugeGradientBlue)"
             strokeWidth={strokeWidth}
             strokeLinecap="round"
             strokeDasharray={circumference}
@@ -76,14 +70,14 @@ export const ScoreGaugeMeter: React.FC<ScoreGaugeMeterProps> = ({
           >
             {score}%
           </motion.span>
-          <span className="text-xs font-semibold text-slate-400 dark:text-slate-400">
-            {score > 70 ? 'High Risk Index' : 'Optimal Health'}
+          <span className="text-xs font-semibold text-blue-600 dark:text-sky-400">
+            {score > 70 ? 'Elevated Index' : 'Nominal Health'}
           </span>
         </div>
       </div>
 
       <div className="mt-3 text-center">
-        <h4 className="text-sm font-bold text-slate-700 dark:text-slate-200">{title}</h4>
+        <h4 className="text-sm font-bold text-slate-800 dark:text-slate-200">{title}</h4>
         <p className="text-xs text-slate-400">{subtitle}</p>
       </div>
     </div>

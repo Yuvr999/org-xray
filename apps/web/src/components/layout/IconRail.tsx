@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { UserSession } from '@/components/auth/AuthFlow';
 import { 
   Activity, 
   FileText, 
@@ -11,40 +12,44 @@ import {
   Settings,
   Sparkles,
   Sun,
-  Moon
+  Moon,
+  LogOut
 } from 'lucide-react';
 
-export type ActiveTab = 'process' | 'invoices' | 'demand' | 'assets' | 'governance';
+import { Layers } from 'lucide-react';
+
+export type ActiveTab = 'process' | 'invoices' | 'demand' | 'assets' | 'governance' | 'custom';
 
 interface IconRailProps {
   activeTab: ActiveTab;
   onTabChange: (tab: ActiveTab) => void;
-  isDarkMode: boolean;
-  onToggleDarkMode: () => void;
+  userSession?: UserSession | null;
+  onLogout?: () => void;
 }
 
 export const IconRail: React.FC<IconRailProps> = ({
   activeTab,
   onTabChange,
-  isDarkMode,
-  onToggleDarkMode,
+  userSession,
+  onLogout,
 }) => {
   const navItems = [
-    { id: 'process', label: 'Shadow Intelligence', icon: Activity, badge: '4' },
-    { id: 'invoices', label: 'Invoices & GSTIN', icon: FileText, badge: '1' },
+    { id: 'process', label: 'Shadow Intelligence', icon: Activity, badge: '' },
+    { id: 'invoices', label: 'Invoices & GSTIN', icon: FileText, badge: '' },
     { id: 'demand', label: 'Demand Routing', icon: ShoppingCart, badge: '' },
     { id: 'assets', label: 'IoT & Asset Recovery', icon: Box, badge: '' },
     { id: 'governance', label: 'Governance & Audits', icon: ShieldCheck, badge: '' },
+    { id: 'custom', label: 'Custom Feature Studio', icon: Layers, badge: '✨' },
   ];
 
   return (
-    <aside className="w-18 flex-shrink-0 flex flex-col items-center justify-between py-5 glass-panel h-screen z-30 select-none">
+    <aside className="w-18 flex-shrink-0 flex flex-col items-center justify-between py-5 glass-panel h-screen z-30 select-none border-r border-blue-200/50 dark:border-blue-900/40">
       {/* Brand Icon / Logo */}
       <div className="flex flex-col items-center gap-6">
         <motion.div
           whileHover={{ rotate: 180 }}
           transition={{ duration: 0.6, ease: 'easeInOut' }}
-          className="w-11 h-11 rounded-2xl bg-indigo-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30 cursor-pointer"
+          className="w-11 h-11 rounded-2xl bg-blue-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/30 cursor-pointer"
         >
           <Sparkles className="w-6 h-6 fill-white" />
         </motion.div>
@@ -60,14 +65,14 @@ export const IconRail: React.FC<IconRailProps> = ({
                 key={item.id}
                 onClick={() => onTabChange(item.id as ActiveTab)}
                 title={item.label}
-                className="relative p-3 rounded-2xl transition-all duration-200 group flex items-center justify-center"
+                className="relative p-3 rounded-2xl transition-all duration-200 group flex items-center justify-center cursor-pointer"
               >
                 {/* Active Pill Spring Animation */}
                 {isActive && (
                   <motion.div
                     layoutId="activeRailPill"
                     transition={{ type: 'spring', stiffness: 500, damping: 35 }}
-                    className="absolute inset-0 bg-indigo-600 rounded-2xl shadow-md shadow-indigo-500/25"
+                    className="absolute inset-0 bg-blue-600 rounded-2xl shadow-md shadow-blue-500/30"
                   />
                 )}
 
@@ -75,7 +80,7 @@ export const IconRail: React.FC<IconRailProps> = ({
                   className={`w-5 h-5 relative z-10 transition-colors ${
                     isActive
                       ? 'text-white'
-                      : 'text-slate-500 dark:text-slate-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400'
+                      : 'text-slate-500 dark:text-slate-400 group-hover:text-blue-600 dark:group-hover:text-sky-400'
                   }`}
                 />
 
@@ -84,8 +89,8 @@ export const IconRail: React.FC<IconRailProps> = ({
                   <span
                     className={`absolute -top-1 -right-1 z-20 w-4 h-4 rounded-full text-[10px] font-extrabold flex items-center justify-center ${
                       isActive
-                        ? 'bg-amber-400 text-slate-950'
-                        : 'bg-rose-500 text-white'
+                        ? 'bg-sky-300 text-slate-950'
+                        : 'bg-blue-500 text-white'
                     }`}
                   >
                     {item.badge}
@@ -97,23 +102,35 @@ export const IconRail: React.FC<IconRailProps> = ({
         </nav>
       </div>
 
-      {/* Theme Switcher & System Settings */}
+      {/* User Session & Logout */}
       <div className="flex flex-col items-center gap-3">
-        <button
-          onClick={onToggleDarkMode}
-          title={isDarkMode ? 'Switch to Light Pastel' : 'Switch to Dark Glass'}
-          className="p-3 rounded-2xl text-slate-500 hover:text-indigo-600 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+        {/* User Avatar with Role Tooltip */}
+        <div 
+          title={userSession ? `${userSession.name} (${userSession.role.toUpperCase()})` : 'User Profile'}
+          className="relative group cursor-pointer"
         >
-          {isDarkMode ? <Sun className="w-5 h-5 text-amber-400" /> : <Moon className="w-5 h-5 text-indigo-600" />}
-        </button>
-
-        <div className="w-9 h-9 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden border-2 border-white dark:border-slate-800 shadow-sm">
-          <img
-            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=faces"
-            alt="User Avatar"
-            className="w-full h-full object-cover"
-          />
+          <div className="w-9 h-9 rounded-full bg-blue-100 dark:bg-slate-800 overflow-hidden border-2 border-blue-500 dark:border-blue-400 shadow-sm">
+            <img
+              src={userSession?.avatar || "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=faces"}
+              alt="User Avatar"
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <span className="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-blue-600 border-2 border-white dark:border-slate-900 rounded-full flex items-center justify-center text-[8px] text-white font-black uppercase">
+            {userSession?.role ? userSession.role[0].toUpperCase() : 'U'}
+          </span>
         </div>
+
+        {/* Logout Action */}
+        {onLogout && (
+          <button
+            onClick={onLogout}
+            title="Log Out & Switch Role Portal"
+            className="p-2.5 rounded-xl text-slate-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+          >
+            <LogOut className="w-4 h-4" />
+          </button>
+        )}
       </div>
     </aside>
   );

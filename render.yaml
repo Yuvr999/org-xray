@@ -1,14 +1,8 @@
 # =============================================================================
 # ORG-XRAY — Render Blueprint (Infrastructure as Code)
 # Deploy: Push to GitHub → Render Dashboard → New Blueprint Instance → Connect repo
+# NOTE: No managed DB — API uses SQLite (free, zero-config, no free-tier limit)
 # =============================================================================
-
-databases:
-  - name: org-xray-db
-    plan: free            # Free tier: 256 MB, 90-day retention
-    databaseName: org_xray
-    user: org_xray_user
-    region: oregon        # us-west
 
 services:
   # ─── FastAPI Backend ───────────────────────────────────────────────
@@ -33,9 +27,7 @@ services:
       - key: GEMINI_MODEL
         value: gemini-2.5-flash
       - key: DATABASE_URL
-        fromDatabase:
-          name: org-xray-db
-          property: connectionString
+        value: sqlite:///./org_xray.db   # SQLite — no external DB needed
       - key: CORS_ORIGINS
         value: https://org-xray-web.onrender.com,http://localhost:5173
       - key: RENDER_EXTERNAL_URL

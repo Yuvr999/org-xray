@@ -30,7 +30,7 @@ export const AppShell: React.FC<AppShellProps> = ({
   const [isRightDrawerOpen, setIsRightDrawerOpen] = useState(true);
 
   return (
-    <div className="min-h-screen flex dark bg-ambient-mesh-dark text-slate-100 overflow-hidden">
+    <div className="min-h-screen flex bg-ambient-mesh-dark text-slate-900 overflow-hidden">
       {/* Pane 1: Leftmost Icon Rail */}
       <IconRail
         activeTab={activeTab}

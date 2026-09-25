@@ -174,25 +174,25 @@ export const FeatureManagerModal: React.FC<FeatureManagerModalProps> = ({
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-md">
           <motion.div
             initial={{ opacity: 0, scale: 0.94, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.94, y: 15 }}
             transition={{ duration: 0.25 }}
-            className="w-full max-w-2xl bg-slate-900 border border-blue-900/40 rounded-3xl shadow-2xl shadow-blue-500/10 overflow-hidden flex flex-col max-h-[90vh]"
+            className="w-full max-w-2xl bg-white border border-slate-200 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
           >
             {/* Modal Header */}
-            <div className="p-6 border-b border-blue-900/30 flex items-center justify-between">
+            <div className="p-6 border-b border-slate-200 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/25">
                   <Sparkles className="w-5 h-5 fill-white" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-black text-white tracking-tight">
+                  <h2 className="text-xl font-black text-slate-900 tracking-tight">
                     Workspace Controls & Feature Studio
                   </h2>
-                  <p className="text-xs text-slate-400">
+                  <p className="text-xs font-semibold text-slate-500">
                     Add new custom features, ingest assets & invoices, or reset workspace state.
                   </p>
                 </div>
@@ -200,20 +200,20 @@ export const FeatureManagerModal: React.FC<FeatureManagerModalProps> = ({
 
               <button
                 onClick={onClose}
-                className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
+                className="p-2 rounded-xl text-slate-400 hover:text-slate-800 hover:bg-slate-100 transition-colors cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             {/* Navigation Tabs */}
-            <div className="px-6 pt-4 flex gap-2 border-b border-blue-900/20 bg-slate-950/40">
+            <div className="px-6 pt-4 flex gap-2 border-b border-slate-200 bg-slate-50">
               <button
                 onClick={() => setActiveTab('add')}
-                className={`pb-3 px-4 text-xs font-bold transition-all border-b-2 flex items-center gap-2 cursor-pointer ${
+                className={`pb-3 px-4 text-xs font-black transition-all border-b-2 flex items-center gap-2 cursor-pointer ${
                   activeTab === 'add'
-                    ? 'border-blue-500 text-blue-400'
-                    : 'border-transparent text-slate-400 hover:text-slate-200'
+                    ? 'border-blue-600 text-blue-600'
+                    : 'border-transparent text-slate-500 hover:text-slate-800'
                 }`}
               >
                 <Plus className="w-4 h-4" />
@@ -222,10 +222,10 @@ export const FeatureManagerModal: React.FC<FeatureManagerModalProps> = ({
 
               <button
                 onClick={() => setActiveTab('reset')}
-                className={`pb-3 px-4 text-xs font-bold transition-all border-b-2 flex items-center gap-2 cursor-pointer ${
+                className={`pb-3 px-4 text-xs font-black transition-all border-b-2 flex items-center gap-2 cursor-pointer ${
                   activeTab === 'reset'
-                    ? 'border-blue-500 text-blue-400'
-                    : 'border-transparent text-slate-400 hover:text-slate-200'
+                    ? 'border-blue-600 text-blue-600'
+                    : 'border-transparent text-slate-500 hover:text-slate-800'
                 }`}
               >
                 <RotateCcw className="w-4 h-4" />
@@ -238,9 +238,9 @@ export const FeatureManagerModal: React.FC<FeatureManagerModalProps> = ({
               <motion.div
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
-                className="px-6 py-2.5 bg-blue-950/80 border-b border-blue-800/60 text-sky-200 text-xs font-bold flex items-center gap-2"
+                className="px-6 py-2.5 bg-blue-50 border-b border-blue-200 text-blue-900 text-xs font-bold flex items-center gap-2"
               >
-                <CheckCircle2 className="w-4 h-4 text-sky-400 flex-shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-blue-600 flex-shrink-0" />
                 <span>{successNotice}</span>
               </motion.div>
             )}
@@ -259,8 +259,8 @@ export const FeatureManagerModal: React.FC<FeatureManagerModalProps> = ({
                       onClick={() => setFeatureCategory('custom')}
                       className={`p-3 rounded-xl border text-xs font-bold transition-all flex flex-col items-center gap-1.5 cursor-pointer ${
                         featureCategory === 'custom'
-                          ? 'bg-blue-600 text-white border-blue-500 shadow-md shadow-blue-600/30'
-                          : 'bg-slate-950/60 text-slate-300 border-slate-800 hover:border-slate-700'
+                          ? 'bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-600/30'
+                          : 'bg-slate-50 text-slate-700 border-slate-200 hover:border-slate-300'
                       }`}
                     >
                       <Sparkles className="w-4 h-4" />
@@ -272,8 +272,8 @@ export const FeatureManagerModal: React.FC<FeatureManagerModalProps> = ({
                       onClick={() => setFeatureCategory('invoice')}
                       className={`p-3 rounded-xl border text-xs font-bold transition-all flex flex-col items-center gap-1.5 cursor-pointer ${
                         featureCategory === 'invoice'
-                          ? 'bg-blue-600 text-white border-blue-500 shadow-md shadow-blue-600/30'
-                          : 'bg-slate-950/60 text-slate-300 border-slate-800 hover:border-slate-700'
+                          ? 'bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-600/30'
+                          : 'bg-slate-50 text-slate-700 border-slate-200 hover:border-slate-300'
                       }`}
                     >
                       <FileText className="w-4 h-4" />
@@ -285,8 +285,8 @@ export const FeatureManagerModal: React.FC<FeatureManagerModalProps> = ({
                       onClick={() => setFeatureCategory('asset')}
                       className={`p-3 rounded-xl border text-xs font-bold transition-all flex flex-col items-center gap-1.5 cursor-pointer ${
                         featureCategory === 'asset'
-                          ? 'bg-blue-600 text-white border-blue-500 shadow-md shadow-blue-600/30'
-                          : 'bg-slate-950/60 text-slate-300 border-slate-800 hover:border-slate-700'
+                          ? 'bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-600/30'
+                          : 'bg-slate-50 text-slate-700 border-slate-200 hover:border-slate-300'
                       }`}
                     >
                       <Box className="w-4 h-4" />
@@ -298,7 +298,7 @@ export const FeatureManagerModal: React.FC<FeatureManagerModalProps> = ({
                   {featureCategory === 'custom' && (
                     <form onSubmit={handleCreateCustomFeature} className="flex flex-col gap-4">
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider">
+                        <label className="text-xs font-black text-slate-700 uppercase tracking-wider">
                           Feature Name
                         </label>
                         <input
@@ -307,13 +307,13 @@ export const FeatureManagerModal: React.FC<FeatureManagerModalProps> = ({
                           value={featureName}
                           onChange={(e) => setFeatureName(e.target.value)}
                           placeholder="e.g., Cloud Carbon AI Audit, Slack Expense Gateway..."
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-sm text-white placeholder:text-slate-500 focus:outline-hidden focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm font-medium text-slate-900 placeholder:text-slate-400 focus:outline-hidden focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
                         />
                       </div>
 
                       <div className="grid grid-cols-2 gap-3">
                         <div className="flex flex-col gap-1.5">
-                          <label className="text-xs font-bold text-slate-300 uppercase tracking-wider">
+                          <label className="text-xs font-black text-slate-700 uppercase tracking-wider">
                             Key Metric Value
                           </label>
                           <input
@@ -321,12 +321,12 @@ export const FeatureManagerModal: React.FC<FeatureManagerModalProps> = ({
                             value={featureMetric}
                             onChange={(e) => setFeatureMetric(e.target.value)}
                             placeholder="e.g., $18,400 Saved / 99.4%"
-                            className="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white placeholder:text-slate-500 focus:outline-hidden focus:border-blue-500"
+                            className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-medium text-slate-900 placeholder:text-slate-400 focus:outline-hidden focus:border-blue-500"
                           />
                         </div>
 
                         <div className="flex flex-col gap-1.5">
-                          <label className="text-xs font-bold text-slate-300 uppercase tracking-wider">
+                          <label className="text-xs font-black text-slate-700 uppercase tracking-wider">
                             Metric Label
                           </label>
                           <input
@@ -334,13 +334,13 @@ export const FeatureManagerModal: React.FC<FeatureManagerModalProps> = ({
                             value={featureMetricLabel}
                             onChange={(e) => setFeatureMetricLabel(e.target.value)}
                             placeholder="e.g., Quarterly Efficiency"
-                            className="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white placeholder:text-slate-500 focus:outline-hidden focus:border-blue-500"
+                            className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-medium text-slate-900 placeholder:text-slate-400 focus:outline-hidden focus:border-blue-500"
                           />
                         </div>
                       </div>
 
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider">
+                        <label className="text-xs font-black text-slate-700 uppercase tracking-wider">
                           Description & Capabilities
                         </label>
                         <textarea
@@ -348,7 +348,7 @@ export const FeatureManagerModal: React.FC<FeatureManagerModalProps> = ({
                           value={featureDesc}
                           onChange={(e) => setFeatureDesc(e.target.value)}
                           placeholder="Explain what this new intelligence feature automates..."
-                          className="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white placeholder:text-slate-500 focus:outline-hidden focus:border-blue-500"
+                          className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-medium text-slate-900 placeholder:text-slate-400 focus:outline-hidden focus:border-blue-500"
                         />
                       </div>
 
@@ -366,7 +366,7 @@ export const FeatureManagerModal: React.FC<FeatureManagerModalProps> = ({
                   {featureCategory === 'invoice' && (
                     <form onSubmit={handleCreateInvoice} className="flex flex-col gap-4">
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider">
+                        <label className="text-xs font-black text-slate-700 uppercase tracking-wider">
                           Vendor Name
                         </label>
                         <input
@@ -375,13 +375,13 @@ export const FeatureManagerModal: React.FC<FeatureManagerModalProps> = ({
                           value={vendorName}
                           onChange={(e) => setVendorName(e.target.value)}
                           placeholder="e.g., Salesforce Cloud Technologies India Pvt Ltd"
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-sm text-white placeholder:text-slate-500 focus:outline-hidden focus:border-blue-500"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm font-medium text-slate-900 placeholder:text-slate-400 focus:outline-hidden focus:border-blue-500"
                         />
                       </div>
 
                       <div className="grid grid-cols-2 gap-3">
                         <div className="flex flex-col gap-1.5">
-                          <label className="text-xs font-bold text-slate-300 uppercase tracking-wider">
+                          <label className="text-xs font-black text-slate-700 uppercase tracking-wider">
                             Base Amount (₹)
                           </label>
                           <input
@@ -390,12 +390,12 @@ export const FeatureManagerModal: React.FC<FeatureManagerModalProps> = ({
                             value={invoiceAmount}
                             onChange={(e) => setInvoiceAmount(e.target.value)}
                             placeholder="e.g., 75000"
-                            className="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white placeholder:text-slate-500 focus:outline-hidden focus:border-blue-500"
+                            className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-medium text-slate-900 placeholder:text-slate-400 focus:outline-hidden focus:border-blue-500"
                           />
                         </div>
 
                         <div className="flex flex-col gap-1.5">
-                          <label className="text-xs font-bold text-slate-300 uppercase tracking-wider">
+                          <label className="text-xs font-black text-slate-700 uppercase tracking-wider">
                             Vendor GSTIN
                           </label>
                           <input
@@ -403,7 +403,7 @@ export const FeatureManagerModal: React.FC<FeatureManagerModalProps> = ({
                             value={invoiceGstin}
                             onChange={(e) => setInvoiceGstin(e.target.value)}
                             placeholder="27AAACA12341Z5"
-                            className="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white placeholder:text-slate-500 focus:outline-hidden focus:border-blue-500 uppercase"
+                            className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-medium text-slate-900 placeholder:text-slate-400 focus:outline-hidden focus:border-blue-500 uppercase"
                           />
                         </div>
                       </div>
@@ -422,7 +422,7 @@ export const FeatureManagerModal: React.FC<FeatureManagerModalProps> = ({
                   {featureCategory === 'asset' && (
                     <form onSubmit={handleCreateAsset} className="flex flex-col gap-4">
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-xs font-bold text-slate-300 uppercase tracking-wider">
+                        <label className="text-xs font-black text-slate-700 uppercase tracking-wider">
                           Hardware Name / Model
                         </label>
                         <input
@@ -431,13 +431,13 @@ export const FeatureManagerModal: React.FC<FeatureManagerModalProps> = ({
                           value={assetName}
                           onChange={(e) => setAssetName(e.target.value)}
                           placeholder="e.g., Apple Mac Studio M2 Ultra (128GB)"
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-sm text-white placeholder:text-slate-500 focus:outline-hidden focus:border-blue-500"
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm font-medium text-slate-900 placeholder:text-slate-400 focus:outline-hidden focus:border-blue-500"
                         />
                       </div>
 
                       <div className="grid grid-cols-2 gap-3">
                         <div className="flex flex-col gap-1.5">
-                          <label className="text-xs font-bold text-slate-300 uppercase tracking-wider">
+                          <label className="text-xs font-black text-slate-700 uppercase tracking-wider">
                             Location / Depot
                           </label>
                           <input
@@ -445,12 +445,12 @@ export const FeatureManagerModal: React.FC<FeatureManagerModalProps> = ({
                             value={assetLocation}
                             onChange={(e) => setAssetLocation(e.target.value)}
                             placeholder="Building B - Server Room"
-                            className="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white placeholder:text-slate-500 focus:outline-hidden focus:border-blue-500"
+                            className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-medium text-slate-900 placeholder:text-slate-400 focus:outline-hidden focus:border-blue-500"
                           />
                         </div>
 
                         <div className="flex flex-col gap-1.5">
-                          <label className="text-xs font-bold text-slate-300 uppercase tracking-wider">
+                          <label className="text-xs font-black text-slate-700 uppercase tracking-wider">
                             Assignee / User
                           </label>
                           <input
@@ -458,7 +458,7 @@ export const FeatureManagerModal: React.FC<FeatureManagerModalProps> = ({
                             value={assetUser}
                             onChange={(e) => setAssetUser(e.target.value)}
                             placeholder="Alex Morgan"
-                            className="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white placeholder:text-slate-500 focus:outline-hidden focus:border-blue-500"
+                            className="w-full px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-medium text-slate-900 placeholder:text-slate-400 focus:outline-hidden focus:border-blue-500"
                           />
                         </div>
                       </div>
@@ -480,11 +480,11 @@ export const FeatureManagerModal: React.FC<FeatureManagerModalProps> = ({
               {/* ======================================================= */}
               {activeTab === 'reset' && (
                 <div className="flex flex-col gap-5">
-                  <div className="p-4 rounded-2xl bg-slate-950/60 border border-slate-800 flex items-start gap-3.5">
-                    <AlertTriangle className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
+                  <div className="p-4 rounded-2xl bg-blue-50 border border-blue-200 flex items-start gap-3.5">
+                    <AlertTriangle className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
                     <div>
-                      <h4 className="text-sm font-bold text-white">Resetting Workspace State</h4>
-                      <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+                      <h4 className="text-sm font-black text-slate-900">Resetting Workspace State</h4>
+                      <p className="text-xs text-slate-600 font-medium mt-1 leading-relaxed">
                         You can wipe the entire canvas to 0 items to start completely clean, or restore the default demo datasets anytime.
                       </p>
                     </div>
@@ -492,21 +492,21 @@ export const FeatureManagerModal: React.FC<FeatureManagerModalProps> = ({
 
                   {/* Summary of Active Records */}
                   <div className="grid grid-cols-4 gap-2 text-center">
-                    <div className="p-3 rounded-xl bg-slate-950 border border-slate-800">
-                      <span className="block text-lg font-black text-white">{invoices.length}</span>
-                      <span className="text-[10px] text-slate-400 font-bold uppercase">Invoices</span>
+                    <div className="p-3 rounded-xl bg-slate-50 border border-slate-200">
+                      <span className="block text-lg font-black text-slate-900">{invoices.length}</span>
+                      <span className="text-[10px] text-slate-500 font-bold uppercase">Invoices</span>
                     </div>
-                    <div className="p-3 rounded-xl bg-slate-950 border border-slate-800">
-                      <span className="block text-lg font-black text-white">{assets.length}</span>
-                      <span className="text-[10px] text-slate-400 font-bold uppercase">Assets</span>
+                    <div className="p-3 rounded-xl bg-slate-50 border border-slate-200">
+                      <span className="block text-lg font-black text-slate-900">{assets.length}</span>
+                      <span className="text-[10px] text-slate-500 font-bold uppercase">Assets</span>
                     </div>
-                    <div className="p-3 rounded-xl bg-slate-950 border border-slate-800">
-                      <span className="block text-lg font-black text-white">{demands.length}</span>
-                      <span className="text-[10px] text-slate-400 font-bold uppercase">Demands</span>
+                    <div className="p-3 rounded-xl bg-slate-50 border border-slate-200">
+                      <span className="block text-lg font-black text-slate-900">{demands.length}</span>
+                      <span className="text-[10px] text-slate-500 font-bold uppercase">Demands</span>
                     </div>
-                    <div className="p-3 rounded-xl bg-slate-950 border border-slate-800">
-                      <span className="block text-lg font-black text-white">{customFeatures.length}</span>
-                      <span className="text-[10px] text-slate-400 font-bold uppercase">Custom</span>
+                    <div className="p-3 rounded-xl bg-slate-50 border border-slate-200">
+                      <span className="block text-lg font-black text-slate-900">{customFeatures.length}</span>
+                      <span className="text-[10px] text-slate-500 font-bold uppercase">Custom</span>
                     </div>
                   </div>
 
@@ -515,9 +515,9 @@ export const FeatureManagerModal: React.FC<FeatureManagerModalProps> = ({
                     <button
                       type="button"
                       onClick={handleWipeClean}
-                      className="flex-1 py-3.5 px-4 rounded-2xl bg-rose-600/20 hover:bg-rose-600/30 text-rose-300 border border-rose-500/40 text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer"
+                      className="flex-1 py-3.5 px-4 rounded-2xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer"
                     >
-                      <Trash2 className="w-4 h-4 text-rose-400" />
+                      <Trash2 className="w-4 h-4 text-rose-600" />
                       <span>Remove Everything (Blank Slate)</span>
                     </button>
 

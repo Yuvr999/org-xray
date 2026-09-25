@@ -272,11 +272,11 @@ export const DemandRoutingView: React.FC = () => {
             exit={{ opacity: 0, height: 0 }}
             className="overflow-hidden"
           >
-            <SoftCard className="p-5 flex flex-col gap-4 border border-blue-200 dark:border-blue-900/50 bg-blue-50/40 dark:bg-blue-950/20">
+            <SoftCard className="p-5 flex flex-col gap-4 border border-slate-200 bg-white shadow-md">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Building2 className="w-4 h-4 text-blue-600" />
-                  <span className="text-xs font-bold uppercase tracking-wider text-blue-900 dark:text-sky-300">
+                  <span className="text-xs font-black uppercase tracking-wider text-slate-900">
                     Approved Vendor Catalog ({vendors.length})
                   </span>
                 </div>
@@ -287,26 +287,26 @@ export const DemandRoutingView: React.FC = () => {
                     placeholder="Search vendor / category..."
                     value={vendorFilter}
                     onChange={(e) => setVendorFilter(e.target.value)}
-                    className="pl-8 pr-3 py-1.5 text-xs rounded-xl border border-blue-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100"
+                    className="pl-8 pr-3 py-1.5 text-xs font-medium rounded-xl border border-slate-200 bg-slate-50 text-slate-900"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
                 {filteredVendors.map((v) => (
-                  <div key={v.id} className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-blue-100 dark:border-blue-900/40 flex flex-col gap-1.5 shadow-xs">
+                  <div key={v.id} className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col gap-1.5 shadow-xs">
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-slate-900 dark:text-white">{v.name}</span>
-                      <span className="text-[10px] font-extrabold px-1.5 py-0.5 rounded-full bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-sky-300 border border-blue-200 dark:border-blue-800">
+                      <span className="text-xs font-black text-slate-900">{v.name}</span>
+                      <span className="text-[10px] font-extrabold px-1.5 py-0.5 rounded-full bg-blue-100 text-blue-800 border border-blue-200">
                         ★ {v.rating}
                       </span>
                     </div>
-                    <div className="flex items-center gap-2 text-[11px] text-slate-500">
+                    <div className="flex items-center gap-2 text-[11px] text-slate-600 font-semibold">
                       <span>{v.category}</span>
                       <span>•</span>
                       <span>{v.region}</span>
                     </div>
-                    <div className="text-[10px] text-slate-400 font-mono">
+                    <div className="text-[10px] text-slate-500 font-mono font-bold">
                       GSTIN: {v.gstin}
                     </div>
                   </div>
@@ -458,43 +458,43 @@ export const DemandRoutingView: React.FC = () => {
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="w-full max-w-md bg-white dark:bg-slate-900 rounded-3xl p-6 shadow-2xl border border-blue-100 dark:border-blue-900/60"
+              className="w-full max-w-md bg-white rounded-3xl p-6 shadow-2xl border border-slate-200"
             >
-              <h2 className="text-lg font-extrabold text-slate-900 dark:text-white mb-4">
+              <h2 className="text-lg font-black text-slate-900 mb-4">
                 Create New Purchase Demand
               </h2>
 
               <form onSubmit={handleCreateTicket} className="flex flex-col gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-slate-500 mb-1">Item Title</label>
+                  <label className="block text-xs font-black text-slate-700 mb-1">Item Title</label>
                   <input
                     type="text"
                     required
                     placeholder="e.g. 5x GPU Servers for ML Model Training"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    className="w-full px-3 py-2 text-xs rounded-xl border border-blue-200 dark:border-slate-700 bg-blue-50/30 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-blue-500"
+                    className="w-full px-3 py-2 text-xs font-medium rounded-xl border border-slate-200 bg-slate-50 text-slate-900 focus:outline-blue-500"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-500 mb-1">Description</label>
+                  <label className="block text-xs font-black text-slate-700 mb-1">Description</label>
                   <textarea
                     rows={3}
                     placeholder="Detailed procurement requirements and justification..."
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    className="w-full px-3 py-2 text-xs rounded-xl border border-blue-200 dark:border-slate-700 bg-blue-50/30 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-blue-500"
+                    className="w-full px-3 py-2 text-xs font-medium rounded-xl border border-slate-200 bg-slate-50 text-slate-900 focus:outline-blue-500"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-bold text-slate-500 mb-1">Category</label>
+                    <label className="block text-xs font-black text-slate-700 mb-1">Category</label>
                     <select
                       value={category}
                       onChange={(e) => setCategory(e.target.value)}
-                      className="w-full px-3 py-2 text-xs rounded-xl border border-blue-200 dark:border-slate-700 bg-blue-50/30 dark:bg-slate-800 text-slate-900 dark:text-white"
+                      className="w-full px-3 py-2 text-xs font-semibold rounded-xl border border-slate-200 bg-slate-50 text-slate-900"
                     >
                       <option value="Technical">Technical</option>
                       <option value="Finance">Finance</option>
@@ -504,23 +504,23 @@ export const DemandRoutingView: React.FC = () => {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-slate-500 mb-1">Estimated Cost ($)</label>
+                    <label className="block text-xs font-black text-slate-700 mb-1">Estimated Cost ($)</label>
                     <input
                       type="number"
                       required
                       min="1"
                       value={estCost}
                       onChange={(e) => setEstCost(e.target.value)}
-                      className="w-full px-3 py-2 text-xs rounded-xl border border-blue-200 dark:border-slate-700 bg-blue-50/30 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-blue-500"
+                      className="w-full px-3 py-2 text-xs font-medium rounded-xl border border-slate-200 bg-slate-50 text-slate-900 focus:outline-blue-500"
                     />
                   </div>
                 </div>
 
-                <div className="flex items-center justify-end gap-3 mt-4 pt-3 border-t border-blue-100 dark:border-blue-900/40">
+                <div className="flex items-center justify-end gap-3 mt-4 pt-3 border-t border-slate-200">
                   <button
                     type="button"
                     onClick={() => setShowNewModal(false)}
-                    className="px-4 py-2 text-xs font-bold text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white cursor-pointer"
+                    className="px-4 py-2 text-xs font-bold text-slate-600 hover:text-slate-900 cursor-pointer"
                   >
                     Cancel
                   </button>

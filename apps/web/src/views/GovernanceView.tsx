@@ -162,10 +162,10 @@ export const GovernanceView: React.FC = () => {
       {/* SECTION 1: Interactive Brand-Style Boxes Row (Reference Style from Image 2 & 3) */}
       <div className="flex flex-col gap-3">
         <div className="flex items-center justify-between">
-          <span className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-400">
+          <span className="text-xs font-black uppercase tracking-wider text-white">
             Sign-off Matrix Selector (Click a box to reveal information)
           </span>
-          <span className="text-xs text-blue-600 dark:text-sky-400 font-semibold">
+          <span className="text-xs text-blue-100 font-bold">
             {SIGN_OFF_POLICIES.length} Configured Tiers
           </span>
         </div>
@@ -184,22 +184,22 @@ export const GovernanceView: React.FC = () => {
                 }}
                 className={`group relative p-5 rounded-2xl text-left transition-all duration-300 flex flex-col justify-between h-32 cursor-pointer border ${
                   isSelected
-                    ? 'bg-blue-600 text-white border-blue-500 shadow-xl shadow-blue-600/25 ring-2 ring-blue-400/40 dark:ring-blue-500/50'
-                    : 'bg-white/80 dark:bg-slate-900/80 hover:bg-blue-50/50 dark:hover:bg-slate-800/70 text-slate-900 dark:text-slate-100 border-blue-100 dark:border-blue-900/40 shadow-sm'
+                    ? 'bg-blue-600 text-white border-blue-500 shadow-xl shadow-blue-600/25 ring-2 ring-white/60'
+                    : 'bg-white hover:bg-slate-50 text-slate-900 border-slate-200 shadow-md'
                 }`}
               >
                 {/* Title */}
                 <div className="flex flex-col">
                   <span
-                    className={`text-sm font-extrabold tracking-tight transition-colors ${
-                      isSelected ? 'text-white' : 'text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-sky-400'
+                    className={`text-sm font-black tracking-tight transition-colors ${
+                      isSelected ? 'text-white' : 'text-slate-900 group-hover:text-blue-600'
                     }`}
                   >
                     {policy.title}
                   </span>
                   <span
-                    className={`text-xs font-semibold mt-1 tracking-wide ${
-                      isSelected ? 'text-blue-100' : 'text-slate-400 dark:text-slate-400'
+                    className={`text-xs font-bold mt-1 tracking-wide ${
+                      isSelected ? 'text-blue-100' : 'text-slate-600'
                     }`}
                   >
                     {policy.subtitle}
@@ -207,12 +207,12 @@ export const GovernanceView: React.FC = () => {
                 </div>
 
                 {/* Bottom Limit Indicator */}
-                <div className="flex items-center justify-between pt-2 border-t border-black/5 dark:border-white/5 text-[11px] font-bold">
-                  <span className={isSelected ? 'text-sky-200' : 'text-blue-600 dark:text-sky-400'}>
+                <div className="flex items-center justify-between pt-2 border-t border-slate-200 text-[11px] font-black">
+                  <span className={isSelected ? 'text-sky-200' : 'text-blue-700'}>
                     {policy.limit}
                   </span>
-                  <span className={`text-[10px] px-2 py-0.5 rounded-md font-mono ${
-                    isSelected ? 'bg-blue-700/80 text-white' : 'bg-blue-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
+                  <span className={`text-[10px] px-2 py-0.5 rounded-md font-mono font-bold ${
+                    isSelected ? 'bg-blue-700/80 text-white' : 'bg-blue-100 text-blue-900'
                   }`}>
                     {policy.avgTurnaround}
                   </span>
@@ -242,24 +242,24 @@ export const GovernanceView: React.FC = () => {
                     <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-bold bg-blue-100 text-blue-800 border border-blue-200">
                       {selectedPolicy.badge}
                     </span>
-                    <span className="text-xs text-blue-600 font-semibold">• Active Policy</span>
+                    <span className="text-xs text-blue-600 font-bold">• Active Policy</span>
                   </div>
-                  <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 mt-1">
+                  <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 mt-1">
                     {selectedPolicy.title}
                   </h2>
-                  <p className="text-xs text-slate-500">
-                    Governed Role: <strong className="text-slate-800">{selectedPolicy.authorizer}</strong>
+                  <p className="text-xs text-slate-600 font-semibold">
+                    Governed Role: <strong className="text-slate-900">{selectedPolicy.authorizer}</strong>
                   </p>
                 </div>
 
                 <div className="flex flex-col sm:items-end gap-1 bg-blue-50 p-3.5 rounded-2xl border border-blue-200">
-                  <span className="text-[10px] font-bold text-blue-700 uppercase tracking-wider">
+                  <span className="text-[10px] font-black text-blue-700 uppercase tracking-wider">
                     Sign-off Limit
                   </span>
-                  <span className="text-xl font-extrabold text-slate-900">
+                  <span className="text-xl font-black text-slate-900">
                     {selectedPolicy.limit}
                   </span>
-                  <span className="text-[11px] text-slate-500">
+                  <span className="text-[11px] font-bold text-slate-600">
                     SLA: {selectedPolicy.avgTurnaround}
                   </span>
                 </div>
@@ -267,10 +267,10 @@ export const GovernanceView: React.FC = () => {
 
               {/* Main Policy Description */}
               <div className="flex flex-col gap-2">
-                <span className="text-xs font-bold uppercase tracking-wider text-blue-600">
+                <span className="text-xs font-black uppercase tracking-wider text-blue-600">
                   Policy Summary & Architectural Scope
                 </span>
-                <p className="text-sm sm:text-base leading-relaxed text-slate-700 font-medium max-w-4xl">
+                <p className="text-sm sm:text-base leading-relaxed text-slate-800 font-medium max-w-4xl">
                   {selectedPolicy.description}
                 </p>
               </div>
@@ -282,11 +282,11 @@ export const GovernanceView: React.FC = () => {
                     key={idx}
                     className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col gap-2 hover:border-blue-300 transition-colors"
                   >
-                    <div className="flex items-center gap-2 text-xs font-bold text-blue-600">
+                    <div className="flex items-center gap-2 text-xs font-black text-blue-600">
                       <CheckCircle2 className="w-4 h-4 text-blue-500" />
                       <span>Rule 0{idx + 1}</span>
                     </div>
-                    <p className="text-xs text-slate-700 leading-normal font-medium">
+                    <p className="text-xs text-slate-800 leading-normal font-medium">
                       {rule}
                     </p>
                   </div>
@@ -299,7 +299,7 @@ export const GovernanceView: React.FC = () => {
                   {selectedPolicy.tags.map((tag, tidx) => (
                     <span
                       key={tidx}
-                      className="px-3 py-1.5 rounded-xl text-xs font-extrabold tracking-wider bg-slate-100 text-slate-800 border border-slate-200 uppercase"
+                      className="px-3 py-1.5 rounded-xl text-xs font-black tracking-wider bg-slate-100 text-slate-900 border border-slate-200 uppercase"
                     >
                       {tag}
                     </span>
@@ -307,10 +307,10 @@ export const GovernanceView: React.FC = () => {
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <span className="text-xs text-slate-500 font-mono">
+                  <span className="text-xs text-slate-600 font-mono font-bold">
                     Audit: {selectedPolicy.auditFrequency}
                   </span>
-                  <button className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-lg shadow-blue-600/30 transition-all hover:scale-105 active:scale-95 cursor-pointer">
+                  <button className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-black text-xs shadow-lg shadow-blue-600/30 transition-all hover:scale-105 active:scale-95 cursor-pointer">
                     Simulate Sign-off
                   </button>
                 </div>
@@ -322,7 +322,7 @@ export const GovernanceView: React.FC = () => {
 
       {/* SECTION 3: All Policy Cards with In-Place Click-to-Expand Information */}
       <div className="flex flex-col gap-4">
-        <span className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-400">
+        <span className="text-xs font-black uppercase tracking-wider text-white">
           Individual Sign-off Boxes (Click any box to expand all details)
         </span>
 
@@ -338,20 +338,20 @@ export const GovernanceView: React.FC = () => {
               >
                 <SoftCard
                   onClick={() => toggleCard(policy.id)}
-                  className={`flex flex-col justify-between transition-all cursor-pointer border-l-4 ${
+                  className={`flex flex-col justify-between transition-all cursor-pointer border-l-4 bg-white text-slate-900 shadow-md ${
                     selectedPolicyId === policy.id
-                      ? 'border-l-blue-500 ring-1 ring-blue-500/40 bg-blue-50/20 dark:bg-blue-950/30'
-                      : 'border-l-blue-300 dark:border-l-blue-800 hover:border-l-blue-500'
+                      ? 'border-l-blue-600 ring-2 ring-blue-500/40 bg-blue-50/30'
+                      : 'border-l-blue-500 hover:border-l-blue-600'
                   }`}
                 >
                   {/* Top Bar */}
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
-                      <span className="text-xs font-mono font-bold uppercase tracking-wider text-blue-600 dark:text-sky-400">
+                      <span className="text-xs font-mono font-bold uppercase tracking-wider text-blue-600">
                         {policy.badge}
                       </span>
                     </div>
-                    <span className="text-xs font-extrabold text-blue-600 dark:text-sky-400">
+                    <span className="text-xs font-black text-blue-700">
                       {policy.limit}
                     </span>
                   </div>
@@ -359,15 +359,15 @@ export const GovernanceView: React.FC = () => {
                   {/* Header Title & Subtitle */}
                   <div className="flex items-center justify-between">
                     <div>
-                      <h3 className="text-base font-extrabold text-slate-900 dark:text-white">
+                      <h3 className="text-base font-black text-slate-900">
                         {policy.title}
                       </h3>
-                      <p className="text-xs font-semibold text-slate-400 dark:text-slate-400">
+                      <p className="text-xs font-bold text-slate-500">
                         {policy.subtitle}
                       </p>
                     </div>
 
-                    <span className="text-xs text-blue-600 dark:text-sky-400 font-bold px-2 py-1 rounded-lg bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-900">
+                    <span className="text-xs text-blue-700 font-bold px-2 py-1 rounded-lg bg-blue-50 border border-blue-200">
                       {isExpanded ? 'Hide Info ▲' : 'View Info ▼'}
                     </span>
                   </div>
@@ -380,19 +380,19 @@ export const GovernanceView: React.FC = () => {
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
                         transition={{ duration: 0.25 }}
-                        className="overflow-hidden flex flex-col gap-3 pt-3 mt-3 border-t border-blue-100 dark:border-blue-900/40"
+                        className="overflow-hidden flex flex-col gap-3 pt-3 mt-3 border-t border-slate-200"
                       >
-                        <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
+                        <p className="text-xs text-slate-800 leading-relaxed font-medium">
                           {policy.description}
                         </p>
 
-                        <div className="p-2.5 rounded-xl bg-blue-50/60 dark:bg-blue-950/50 border border-blue-100 dark:border-blue-900/50 flex flex-col gap-1.5">
-                          <span className="text-[10px] font-bold uppercase text-blue-600 dark:text-sky-400">
+                        <div className="p-2.5 rounded-xl bg-blue-50 border border-blue-200 flex flex-col gap-1.5">
+                          <span className="text-[10px] font-black uppercase text-blue-700">
                             Key Approval Requirements:
                           </span>
                           {policy.rules.map((r, ri) => (
-                            <div key={ri} className="flex items-start gap-1.5 text-[11px] text-slate-600 dark:text-slate-300">
-                              <span className="text-blue-500 font-bold">•</span>
+                            <div key={ri} className="flex items-start gap-1.5 text-[11px] text-slate-800 font-medium">
+                              <span className="text-blue-600 font-black">•</span>
                               <span>{r}</span>
                             </div>
                           ))}
@@ -402,7 +402,7 @@ export const GovernanceView: React.FC = () => {
                           {policy.tags.map((t, ti) => (
                             <span
                               key={ti}
-                              className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-blue-100 dark:bg-blue-900/60 text-blue-800 dark:text-sky-300"
+                              className="px-2 py-0.5 rounded-md text-[10px] font-black bg-blue-100 text-blue-900 border border-blue-200"
                             >
                               {t}
                             </span>
@@ -413,9 +413,9 @@ export const GovernanceView: React.FC = () => {
                   </AnimatePresence>
 
                   {/* Card Bottom Meta */}
-                  <div className="pt-3 mt-3 border-t border-slate-200/50 dark:border-blue-900/30 flex items-center justify-between text-[11px] font-semibold text-slate-400 dark:text-slate-400">
-                    <span>Avg turn-around: <strong className="text-slate-700 dark:text-slate-200">{policy.avgTurnaround}</strong></span>
-                    <span className="font-mono">{policy.authorizer.split('/')[0]}</span>
+                  <div className="pt-3 mt-3 border-t border-slate-200 flex items-center justify-between text-[11px] font-bold text-slate-600">
+                    <span>Avg turn-around: <strong className="text-slate-900">{policy.avgTurnaround}</strong></span>
+                    <span className="font-mono text-slate-700">{policy.authorizer.split('/')[0]}</span>
                   </div>
                 </SoftCard>
               </motion.div>

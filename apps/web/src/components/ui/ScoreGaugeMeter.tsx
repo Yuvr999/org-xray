@@ -66,19 +66,19 @@ export const ScoreGaugeMeter: React.FC<ScoreGaugeMeterProps> = ({
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.4, duration: 0.5 }}
-            className="text-4xl font-extrabold tracking-tight text-slate-800 dark:text-white"
+            className="text-4xl font-black tracking-tight text-slate-900"
           >
             {score}%
           </motion.span>
-          <span className="text-xs font-semibold text-blue-600 dark:text-sky-400">
+          <span className="text-xs font-bold text-blue-600">
             {score > 70 ? 'Elevated Index' : 'Nominal Health'}
           </span>
         </div>
       </div>
 
       <div className="mt-3 text-center">
-        <h4 className="text-sm font-bold text-slate-800 dark:text-slate-200">{title}</h4>
-        <p className="text-xs text-slate-400">{subtitle}</p>
+        <h4 className="text-sm font-black text-slate-900">{title}</h4>
+        <p className="text-xs font-semibold text-slate-500">{subtitle}</p>
       </div>
     </div>
   );

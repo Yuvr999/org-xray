@@ -111,11 +111,12 @@ export const RightIntelligenceDrawer: React.FC<RightIntelligenceDrawerProps> = (
         ]);
       }
     } catch (err: any) {
+      const apiUrl = getApiUrl('/api/v1/assistant/query');
       setMessages((prev) => [
         ...prev,
         {
           sender: 'ai',
-          text: `⚠️ Connection notice: Could not connect to API server at /api/v1/assistant/query. Ensure your FastAPI server is running on port 8000.`,
+          text: `⚠️ Could not reach the AI API. This may be because the server is waking up (free tier — wait ~30s and try again).\n\nEndpoint tried: ${apiUrl}\n\nIf this persists, the API service may be restarting. Please try again in 30 seconds.`,
           timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         },
       ]);

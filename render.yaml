@@ -29,9 +29,9 @@ services:
       - key: DATABASE_URL
         value: sqlite:///./org_xray.db   # SQLite — no external DB needed
       - key: CORS_ORIGINS
-        value: https://org-xray-web.onrender.com,http://localhost:5173
+        value: https://org-xray-web-ylo3.onrender.com,https://org-xray-web.onrender.com,http://localhost:5173
       - key: RENDER_EXTERNAL_URL
-        value: https://org-xray-web.onrender.com
+        value: https://org-xray-web-ylo3.onrender.com
       - key: STORAGE_BACKEND
         value: local
       - key: LOG_LEVEL
@@ -57,6 +57,6 @@ services:
         destination: /index.html
     envVars:
       - key: VITE_API_URL
-        value: https://org-xray-api.onrender.com
+        value: https://org-xray-api-ylo3.onrender.com
       - key: NODE_VERSION
         value: 20.18.0

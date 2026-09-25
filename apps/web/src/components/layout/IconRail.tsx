@@ -33,14 +33,18 @@ export const IconRail: React.FC<IconRailProps> = ({
   userSession,
   onLogout,
 }) => {
-  const navItems = [
-    { id: 'process', label: 'Shadow Intelligence', icon: Activity, badge: '' },
-    { id: 'invoices', label: 'Invoices & GSTIN', icon: FileText, badge: '' },
-    { id: 'demand', label: 'Demand Routing', icon: ShoppingCart, badge: '' },
-    { id: 'assets', label: 'IoT & Asset Recovery', icon: Box, badge: '' },
-    { id: 'governance', label: 'Governance & Audits', icon: ShieldCheck, badge: '' },
-    { id: 'custom', label: 'Custom Feature Studio', icon: Layers, badge: '✨' },
+  const role = userSession?.role || 'admin';
+
+  const allNavItems = [
+    { id: 'process', label: role === 'admin' ? 'Shadow Process Mining' : 'Process Workflow', icon: Activity, badge: '', roles: ['admin'] },
+    { id: 'invoices', label: role === 'employee' ? 'Upload Invoice & GST' : role === 'manager' ? 'Invoice Audits & Approvals' : 'Invoices & GSTIN Ledger', icon: FileText, badge: '', roles: ['admin', 'manager', 'employee'] },
+    { id: 'demand', label: role === 'employee' ? 'Raise Purchase Requisition' : role === 'manager' ? 'Department Requisitions' : 'Demand Routing Flow', icon: ShoppingCart, badge: '', roles: ['admin', 'manager', 'employee'] },
+    { id: 'assets', label: role === 'employee' ? 'My Assigned Assets' : role === 'manager' ? 'Department Asset Pool' : 'IoT & Asset Recovery', icon: Box, badge: '', roles: ['admin', 'manager', 'employee'] },
+    { id: 'governance', label: role === 'employee' ? 'Employee Policy Handbook' : role === 'manager' ? 'Department Compliance' : 'Governance & Audits', icon: ShieldCheck, badge: '', roles: ['admin', 'manager', 'employee'] },
+    { id: 'custom', label: 'Custom Feature Studio', icon: Layers, badge: '✨', roles: ['admin'] },
   ];
+
+  const navItems = allNavItems.filter((item) => item.roles.includes(role));
 
   return (
     <aside className="w-18 flex-shrink-0 flex flex-col items-center justify-between py-5 glass-panel h-screen z-30 select-none border-r border-slate-200 bg-white/95 backdrop-blur-xl">

@@ -23,9 +23,9 @@ function DashboardContent() {
     if (session.role === 'admin') {
       setActiveTab('process');
     } else if (session.role === 'manager') {
-      setActiveTab('governance');
+      setActiveTab('invoices');
     } else if (session.role === 'employee') {
-      setActiveTab('demand');
+      setActiveTab('invoices');
     }
   };
 
@@ -61,7 +61,7 @@ function DashboardContent() {
       >
         <AnimatePresence mode="wait">
           {activeTab === 'process' && <ProcessMiningView key="process" />}
-          {activeTab === 'invoices' && <InvoiceVerificationView key="invoices" />}
+          {activeTab === 'invoices' && <InvoiceVerificationView key="invoices" userSession={userSession} />}
           {activeTab === 'demand' && <DemandRoutingView key="demand" />}
           {activeTab === 'assets' && <AssetRecoveryView key="assets" />}
           {activeTab === 'governance' && <GovernanceView key="governance" />}

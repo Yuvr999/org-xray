@@ -44,6 +44,7 @@ export const AppShell: React.FC<AppShellProps> = ({
         activeTab={activeTab}
         onTabChange={onTabChange}
         onOpenFeatureModal={onOpenFeatureModal}
+        userSession={userSession}
       />
 
       {/* Pane 3: Main Canvas Viewport */}

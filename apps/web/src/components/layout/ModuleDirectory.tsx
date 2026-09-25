@@ -24,14 +24,17 @@ interface ModuleDirectoryProps {
   activeTab: ActiveTab;
   onTabChange: (tab: ActiveTab) => void;
   onOpenFeatureModal?: (tab?: 'add' | 'reset') => void;
+  userSession?: import('@/components/auth/AuthFlow').UserSession | null;
 }
 
 export const ModuleDirectory: React.FC<ModuleDirectoryProps> = ({
   activeTab,
   onTabChange,
   onOpenFeatureModal,
+  userSession,
 }) => {
   const { invoices, demands, assets, shadowAlerts, customFeatures } = useApp();
+  const role = userSession?.role || 'admin';
 
   return (
     <aside className="w-80 flex-shrink-0 glass-panel h-screen flex flex-col justify-between p-4 z-20 border-r border-slate-200 overflow-y-auto bg-white/95 backdrop-blur-xl">
@@ -63,29 +66,31 @@ export const ModuleDirectory: React.FC<ModuleDirectoryProps> = ({
         {/* Module Tree Directory */}
         <div className="flex flex-col gap-1.5">
           <span className="text-xs font-black tracking-widest text-slate-500 uppercase px-2 mb-1">
-            Governance Modules
+            {role === 'employee' ? 'Staff Portal' : role === 'manager' ? 'Management Modules' : 'Governance Modules'}
           </span>
 
-          <button
-            onClick={() => onTabChange('process')}
-            className={`flex items-center justify-between p-3 rounded-xl text-sm font-bold transition-all cursor-pointer ${
-              activeTab === 'process'
-                ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30'
-                : 'text-slate-800 hover:bg-slate-100'
-            }`}
-          >
-            <div className="flex items-center gap-3">
-              <Activity className={`w-5 h-5 ${activeTab === 'process' ? 'text-white' : 'text-blue-600'}`} />
-              <span className="font-extrabold">Process Mining</span>
-            </div>
-            {shadowAlerts.length > 0 && (
-              <span className={`px-2 py-0.5 rounded-full text-xs font-black ${
-                activeTab === 'process' ? 'bg-white text-blue-800' : 'bg-blue-600 text-white'
-              }`}>
-                {shadowAlerts.length}
-              </span>
-            )}
-          </button>
+          {role === 'admin' && (
+            <button
+              onClick={() => onTabChange('process')}
+              className={`flex items-center justify-between p-3 rounded-xl text-sm font-bold transition-all cursor-pointer ${
+                activeTab === 'process'
+                  ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30'
+                  : 'text-slate-800 hover:bg-slate-100'
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <Activity className={`w-5 h-5 ${activeTab === 'process' ? 'text-white' : 'text-blue-600'}`} />
+                <span className="font-extrabold">Shadow Process Mining</span>
+              </div>
+              {shadowAlerts.length > 0 && (
+                <span className={`px-2 py-0.5 rounded-full text-xs font-black ${
+                  activeTab === 'process' ? 'bg-white text-blue-800' : 'bg-blue-600 text-white'
+                }`}>
+                  {shadowAlerts.length}
+                </span>
+              )}
+            </button>
+          )}
 
           <button
             onClick={() => onTabChange('invoices')}
@@ -97,7 +102,9 @@ export const ModuleDirectory: React.FC<ModuleDirectoryProps> = ({
           >
             <div className="flex items-center gap-3">
               <FileText className={`w-5 h-5 ${activeTab === 'invoices' ? 'text-white' : 'text-blue-600'}`} />
-              <span className="font-extrabold">Invoice & GSTIN Hub</span>
+              <span className="font-extrabold">
+                {role === 'employee' ? 'Upload Invoice & GST' : role === 'manager' ? 'Invoice Audits & Approvals' : 'Invoices & GSTIN Ledger'}
+              </span>
             </div>
             <span className={`text-xs font-bold ${activeTab === 'invoices' ? 'text-blue-100' : 'text-slate-500'}`}>
               {invoices.length} docs
@@ -114,7 +121,9 @@ export const ModuleDirectory: React.FC<ModuleDirectoryProps> = ({
           >
             <div className="flex items-center gap-3">
               <ShoppingCart className={`w-5 h-5 ${activeTab === 'demand' ? 'text-white' : 'text-blue-600'}`} />
-              <span className="font-extrabold">Demand Routing</span>
+              <span className="font-extrabold">
+                {role === 'employee' ? 'Purchase Requisitions' : role === 'manager' ? 'Department Requisitions' : 'Demand Routing Flow'}
+              </span>
             </div>
             <span className={`text-xs font-bold ${activeTab === 'demand' ? 'text-blue-100' : 'text-slate-500'}`}>
               {demands.length} items
@@ -131,7 +140,9 @@ export const ModuleDirectory: React.FC<ModuleDirectoryProps> = ({
           >
             <div className="flex items-center gap-3">
               <Box className={`w-5 h-5 ${activeTab === 'assets' ? 'text-white' : 'text-blue-600'}`} />
-              <span className="font-extrabold">IoT Assets & Recovery</span>
+              <span className="font-extrabold">
+                {role === 'employee' ? 'My Assigned Assets' : role === 'manager' ? 'Department Asset Pool' : 'IoT & Asset Recovery'}
+              </span>
             </div>
             <span className={`text-xs font-bold ${activeTab === 'assets' ? 'text-blue-100' : 'text-blue-600'}`}>
               {assets.length} devices
@@ -148,47 +159,53 @@ export const ModuleDirectory: React.FC<ModuleDirectoryProps> = ({
           >
             <div className="flex items-center gap-3">
               <ShieldCheck className={`w-5 h-5 ${activeTab === 'governance' ? 'text-white' : 'text-blue-600'}`} />
-              <span className="font-extrabold">Approval Policies</span>
+              <span className="font-extrabold">
+                {role === 'employee' ? 'Policy Handbook' : role === 'manager' ? 'Team Policies & Matrix' : 'Governance & Audits'}
+              </span>
             </div>
           </button>
 
-          {/* Dynamic Custom Features Studio Tab */}
-          <button
-            onClick={() => onTabChange('custom')}
-            className={`flex items-center justify-between p-3 rounded-xl text-sm font-bold transition-all cursor-pointer mt-1 border border-blue-200 ${
-              activeTab === 'custom'
-                ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30'
-                : 'text-blue-700 bg-blue-50/80 hover:bg-blue-100'
-            }`}
-          >
-            <div className="flex items-center gap-3">
-              <Layers className={`w-5 h-5 ${activeTab === 'custom' ? 'text-white' : 'text-blue-600'}`} />
-              <span className="font-extrabold">Feature Studio</span>
-            </div>
-            <span className="px-2 py-0.5 rounded-full text-xs font-black bg-blue-100 text-blue-800 border border-blue-200">
-              {customFeatures.length}
-            </span>
-          </button>
+          {/* Dynamic Custom Features Studio Tab (Admin Only) */}
+          {role === 'admin' && (
+            <button
+              onClick={() => onTabChange('custom')}
+              className={`flex items-center justify-between p-3 rounded-xl text-sm font-bold transition-all cursor-pointer mt-1 border border-blue-200 ${
+                activeTab === 'custom'
+                  ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30'
+                  : 'text-blue-700 bg-blue-50/80 hover:bg-blue-100'
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <Layers className={`w-5 h-5 ${activeTab === 'custom' ? 'text-white' : 'text-blue-600'}`} />
+                <span className="font-extrabold">Feature Studio</span>
+              </div>
+              <span className="px-2 py-0.5 rounded-full text-xs font-black bg-blue-100 text-blue-800 border border-blue-200">
+                {customFeatures.length}
+              </span>
+            </button>
+          )}
         </div>
 
-        {/* Action Buttons: Add Feature & Reset */}
-        <div className="flex flex-col gap-2.5 pt-1">
-          <button
-            onClick={() => onOpenFeatureModal && onOpenFeatureModal('add')}
-            className="w-full py-3 px-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-extrabold text-sm flex items-center justify-center gap-2 shadow-lg shadow-blue-600/25 transition-all hover:scale-[1.02] cursor-pointer"
-          >
-            <Plus className="w-4 h-4" />
-            <span>+ Add Feature / Data</span>
-          </button>
+        {/* Action Buttons: Add Feature & Reset (Admin & Manager) */}
+        {role === 'admin' && (
+          <div className="flex flex-col gap-2.5 pt-1">
+            <button
+              onClick={() => onOpenFeatureModal && onOpenFeatureModal('add')}
+              className="w-full py-3 px-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-extrabold text-sm flex items-center justify-center gap-2 shadow-lg shadow-blue-600/25 transition-all hover:scale-[1.02] cursor-pointer"
+            >
+              <Plus className="w-4 h-4" />
+              <span>+ Add Feature / Data</span>
+            </button>
 
-          <button
-            onClick={() => onOpenFeatureModal && onOpenFeatureModal('reset')}
-            className="w-full py-2.5 px-3.5 rounded-xl bg-slate-100 hover:bg-rose-50 text-slate-700 hover:text-rose-600 border border-slate-200 text-xs font-bold flex items-center justify-center gap-2 transition-all cursor-pointer"
-          >
-            <RotateCcw className="w-4 h-4" />
-            <span>Reset Workspace Data</span>
-          </button>
-        </div>
+            <button
+              onClick={() => onOpenFeatureModal && onOpenFeatureModal('reset')}
+              className="w-full py-2.5 px-3.5 rounded-xl bg-slate-100 hover:bg-rose-50 text-slate-700 hover:text-rose-600 border border-slate-200 text-xs font-bold flex items-center justify-center gap-2 transition-all cursor-pointer"
+            >
+              <RotateCcw className="w-4 h-4" />
+              <span>Reset Workspace Data</span>
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Active Collaborators Section */}

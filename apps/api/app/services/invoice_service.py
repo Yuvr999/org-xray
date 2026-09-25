@@ -33,6 +33,8 @@ from app.services.invoice_extraction import (
     ExtractedInvoiceFields,
     compute_document_hash,
     extract_fields_from_text,
+    extract_pdf_text_from_bytes,
+    extract_invoice_ai_enhanced,
 )
 from app.services.tax_validation import (
     ValidationResult,
@@ -240,28 +242,31 @@ async def process_invoice(
 
     # Read document content
     raw_text = ""
+    original_filename = ""
     if invoice.documents:
         doc = invoice.documents[0]
+        original_filename = doc.original_filename or ""
         storage = get_storage_adapter()
         file_content = await storage.get_file(doc.stored_path)
         if file_content:
-            # For now, attempt text-layer extraction (decode as UTF-8)
-            # In production, add proper PDF parsing and OCR here
-            try:
-                raw_text = file_content.decode("utf-8", errors="ignore")
-            except Exception:
-                raw_text = ""
+            if doc.content_type == "application/pdf" or original_filename.lower().endswith(".pdf"):
+                raw_text = extract_pdf_text_from_bytes(file_content)
+            else:
+                try:
+                    raw_text = file_content.decode("utf-8", errors="ignore")
+                except Exception:
+                    raw_text = ""
 
     processing_time = int((time.time() - start_time) * 1000)
 
-    # Extract fields
-    fields = extract_fields_from_text(raw_text)
+    # Extract fields with AI enhancement
+    fields = await extract_invoice_ai_enhanced(raw_text, filename=original_filename)
 
     # Store extraction record
     extraction = InvoiceExtraction(
         invoice_id=invoice.id,
-        extraction_method="text_layer",
-        raw_text=raw_text[:10000] if raw_text else None,  # Truncate for storage
+        extraction_method="pdf_hybrid_llm",
+        raw_text=raw_text[:10000] if raw_text else None,
         extracted_fields={
             "vendor_name": fields.vendor_name,
             "vendor_gstin": fields.vendor_gstin,
@@ -272,12 +277,26 @@ async def process_invoice(
             "total_tax": fields.total_tax,
             "grand_total": fields.grand_total,
             "po_reference": fields.po_reference,
+            "items": fields.line_items,
         },
         confidence=fields.confidence,
-        model_version="regex_v1",
+        model_version="pdf_gemini_v1",
         processing_time_ms=processing_time,
     )
     db.add(extraction)
+
+    # Populate line items
+    if fields.line_items:
+        for idx, item_data in enumerate(fields.line_items, 1):
+            inv_item = InvoiceItem(
+                invoice_id=invoice.id,
+                description=item_data.get("description", f"Line Item #{idx}"),
+                quantity=float(item_data.get("qty", 1)),
+                unit_price=float(item_data.get("unitPrice", item_data.get("unit_price", 0))),
+                total_amount=float(item_data.get("total", 0)),
+                line_number=idx,
+            )
+            db.add(inv_item)
 
     # Update invoice header with extracted fields
     invoice.vendor_name = fields.vendor_name

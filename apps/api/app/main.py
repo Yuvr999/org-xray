@@ -48,6 +48,20 @@ app.add_middleware(
 app.include_router(api_router, prefix=settings.API_V1_STR)
 
 
+@app.get("/", tags=["Health"])
+async def root():
+    return {
+        "service": settings.PROJECT_NAME,
+        "status": "healthy",
+        "docs": f"{settings.API_V1_STR}/docs",
+    }
+
+
+@app.get("/health", tags=["Health"])
+async def root_health():
+    return {"status": "ok"}
+
+
 if __name__ == "__main__":
     import uvicorn
 

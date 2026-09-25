@@ -57,7 +57,11 @@ class LLMGateway:
         if self.api_key:
             try:
                 import httpx
-                url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_version}:generateContent?key={self.api_key}"
+                # Candidate models to try in order
+                models_to_try = [model_version, "gemini-2.0-flash", "gemini-1.5-flash", "gemini-2.5-flash", "gemini-1.5-pro"]
+                # Deduplicate while preserving order
+                models_to_try = list(dict.fromkeys(models_to_try))
+                
                 payload = {
                     "contents": [
                         {
@@ -70,19 +74,29 @@ class LLMGateway:
                         "maxOutputTokens": 1024,
                     }
                 }
+
+                success = False
                 async with httpx.AsyncClient(timeout=15.0) as client:
-                    resp = await client.post(url, json=payload)
-                    if resp.status_code == 200:
-                        data = resp.json()
-                        candidates = data.get("candidates", [])
-                        if candidates and "content" in candidates[0]:
-                            parts = candidates[0]["content"].get("parts", [])
-                            if parts:
-                                response_text = parts[0].get("text", "")
-                        tokens_used["output"] = len(response_text) // 4
-                    else:
-                        logger.warning(f"Gemini API returned status {resp.status_code}. Activating fallback generator.")
-                        response_text = self._fallback_generate(prompt_id, user_message, context_data)
+                    for model in models_to_try:
+                        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={self.api_key}"
+                        resp = await client.post(url, json=payload)
+                        if resp.status_code == 200:
+                            data = resp.json()
+                            candidates = data.get("candidates", [])
+                            if candidates and "content" in candidates[0]:
+                                parts = candidates[0]["content"].get("parts", [])
+                                if parts:
+                                    response_text = parts[0].get("text", "")
+                            tokens_used["output"] = len(response_text) // 4
+                            model_version = model
+                            success = True
+                            break
+                        else:
+                            logger.warning(f"Model {model} returned status {resp.status_code}: {resp.text[:120]}")
+
+                if not success:
+                    logger.warning("All Gemini model attempts exhausted or key invalid. Activating deterministic fallback engine.")
+                    response_text = self._fallback_generate(prompt_id, user_message, context_data)
             except Exception as e:
                 logger.warning(f"Gemini API request failed ({e}). Falling back to local synthesis engine.")
                 response_text = self._fallback_generate(prompt_id, user_message, context_data)

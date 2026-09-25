@@ -11,6 +11,14 @@ from app.api.v1.router import api_router
 async def lifespan(app: FastAPI):
     # Startup tasks
     logger.info(f"Starting {settings.PROJECT_NAME} in {settings.ENVIRONMENT} mode")
+    try:
+        from app.core.database import engine, Base
+        import app.models  # noqa: F401 - register all models with Base
+        async with engine.begin() as conn:
+            await conn.run_sync(Base.metadata.create_all)
+        logger.info("Database schema initialized successfully.")
+    except Exception as e:
+        logger.warning(f"Database initialization warning (using offline/in-memory fallback): {e}")
     yield
     # Shutdown tasks
     logger.info(f"Shutting down {settings.PROJECT_NAME}")

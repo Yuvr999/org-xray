@@ -4,14 +4,24 @@ from sqlalchemy.orm import DeclarativeBase
 from app.core.config import settings
 from app.core.logging import logger
 
-engine = create_async_engine(
-    settings.ASYNC_DATABASE_URL,
-    echo=False,
-    future=True,
-    pool_pre_ping=True,
-    pool_size=10,
-    max_overflow=20,
-)
+db_url = settings.ASYNC_DATABASE_URL
+is_sqlite = "sqlite" in db_url
+
+if is_sqlite:
+    engine = create_async_engine(
+        db_url,
+        echo=False,
+        future=True,
+    )
+else:
+    engine = create_async_engine(
+        db_url,
+        echo=False,
+        future=True,
+        pool_pre_ping=True,
+        pool_size=10,
+        max_overflow=20,
+    )
 
 AsyncSessionLocal = async_sessionmaker(
     bind=engine,
